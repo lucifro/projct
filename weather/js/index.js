@@ -1,25 +1,25 @@
 function getweather(citycode) {
-    myAxios({
-        url: 'http://hmajax.itheima.net/api/weather',
-        params: {
-            city: citycode
-        }
-    }).then(result => {
-        console.log(result);
-        // 渲染页面
-        // 时间日期
-        const wobj = result.data
-        const datastr = `
+  myAxios({
+    url: 'http://hmajax.itheima.net/api/weather',
+    params: {
+      city: citycode
+    }
+  }).then(result => {
+    console.log(result);
+    // 渲染页面
+    // 时间日期
+    const wobj = result.data
+    const datastr = `
             <span class="dateShort">${wobj.date}</span>
             <span class="calendar">农历&nbsp;
             <span class="dateLunar">${wobj.dateLunar}</span>
         </span>
         `
-        document.querySelector('.title').innerHTML = datastr
-        // 城市名字
-        document.querySelector('.area').innerHTML = wobj.area
-        // 当天气温
-        const nowhot = `
+    document.querySelector('.title').innerHTML = datastr
+    // 城市名字
+    document.querySelector('.area').innerHTML = wobj.area
+    // 当天气温
+    const nowhot = `
         <div class="tem-box">
         <span class="temp">
           <span class="temperature">${wobj.temperature}</span>
@@ -41,9 +41,9 @@ function getweather(citycode) {
         </ul>
       </div>
         `
-        document.querySelector('.weather-box').innerHTML = nowhot
-        const todayweather = wobj.todayWeather
-        const nowweather = `
+    document.querySelector('.weather-box').innerHTML = nowhot
+    const todayweather = wobj.todayWeather
+    const nowweather = `
         <div class="range-box">
         <span>今天：</span>
         <span class="range">
@@ -73,11 +73,11 @@ function getweather(citycode) {
         </li>
       </ul>
         `
-        document.querySelector('.today-weather').innerHTML = nowweather
-        // 七天天气预报
-        const dayForecast = wobj.dayForecast
-        const dateFormatsstr = dayForecast.map(item => {
-            return `
+    document.querySelector('.today-weather').innerHTML = nowweather
+    // 七天天气预报
+    const dayForecast = wobj.dayForecast
+    const dateFormatsstr = dayForecast.map(item => {
+      return `
             <li class="item">
                 <div class="date-box">
                 <span class="dateFormat">${item.dateFormat}</span>
@@ -96,34 +96,34 @@ function getweather(citycode) {
                 </div>
             </li>
             `
-        }).join('')
-        document.querySelector('.week-wrap').innerHTML = dateFormatsstr
-    })
+    }).join('')
+    document.querySelector('.week-wrap').innerHTML = dateFormatsstr
+  })
 }
 // 默认进入网页-就要获取天气数据（北京市城市编码：'110100'）
 getweather('110100')
 // 搜索框
 document.querySelector('.search-city').addEventListener('input', (e) => {
-    // 获取城市数据列表
-    myAxios({
-        url: 'http://hmajax.itheima.net/api/weather/city',
-        params: {
-            city: e.target.value
-        }
-    }).then(result => {
-        const liststr = result.data.map(item => {
-            return `
+  // 获取城市数据列表
+  myAxios({
+    url: 'http://hmajax.itheima.net/api/weather/city',
+    params: {
+      city: e.target.value
+    }
+  }).then(result => {
+    const liststr = result.data.map(item => {
+      return `
             <li class="city-item" data-code="${item.code}">${item.name}</li>
             `
-        }).join('')
-        document.querySelector('.search-list').innerHTML = liststr
-    })
+    }).join('')
+    document.querySelector('.search-list').innerHTML = liststr
+  })
 })
 // 搜索渲染
 document.querySelector('.search-list').addEventListener('click', e => {
-    // 判断点击城市的li
-    if (e.target.classList.contains('city-item')) {
-        const cityCode = e.target.dataset.code
-        getweather(cityCode)
-    }
+  // 判断点击城市的li
+  if (e.target.classList.contains('city-item')) {
+    const cityCode = e.target.dataset.code
+    getweather(cityCode)
+  }
 })
